@@ -1,0 +1,16 @@
+@font-face {
+    font-family: Open_Sans;
+    src: url('../font/Open_Sans/OpenSans-VariableFont_wdth\,wght.ttf');
+}
+@font-face {
+    font-family: Poppins;
+    src: url('../font/Poppins/Poppins-Regular.ttf');
+}
+@font-face {
+    font-family: Roboto;
+    src: url('../font/Roboto/Roboto-Regular.ttf');
+}
+@font-face {
+    font-family: Titillium_Web;
+    src: url('../font/Titillium_Web/TitilliumWeb-Regular.ttf');
+}
