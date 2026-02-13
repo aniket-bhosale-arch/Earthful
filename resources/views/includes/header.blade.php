@@ -13,23 +13,49 @@
                         <div class="item">
                             <a href="#" class="sub-btn">Shop All<i class="fa-solid fa-angle-right dropdown"></i></a>
                             <div class="sub-menu">
-                            <a href="#" class="sub-btn">Multivitamin<i class="fa-solid fa-angle-right dropdown"></i></a>
-                                <div class="sub-menu">
-                                <a href="{{route('women_multi')}}" class="sub-item">Women Multivitamin18+</a>
-                                <a href="{{route('men_multi')}}" class="sub-item">Men Multivitamin</a>
-                                <a href="{{route('sleep')}}" class="sub-item">Bone</a>
-                                <a href="#" class="sub-item">Women Multivitamin40+</a>
-                                <a href="{{route('teen_multi')}}" class="sub-item">teen Multivitamin</a>
+                            @foreach($sidebarCategories as $category)
 
+@php
+    $products = $category->products;
+    $count = $products->count();
+@endphp
 
-                                </div>
-                                <a href="{{route('plantprotein')}}" class="sub-item">plant protein</a>
-                                <a href="{{route('skin')}}" class="sub-item">skin</a>
-                                <a href="{{route('hair')}}" class="sub-item">hair</a>
-                                <a href="{{route('gut')}}" class="sub-item">gut</a>
-                                <a href="{{route('sleep')}}" class="sub-item">sleep</a>
-                                <a href="{{route('pcos')}}" class="sub-item">pcos</a>
+@if($count === 0)
+    @continue
+@endif
 
+<li class="sidebar-item">
+
+    {{-- MULTIPLE PRODUCTS → TOGGLE --}}
+    @if($count > 1)
+
+        <span class="category-toggle">
+            {{ $category->name }}
+            
+        </span>
+
+        <ul class="product">
+            @foreach($products as $product)
+                <li>
+                    <a href="{{ route('product.show', $product->slug) }}">
+                        {{ $product->name }}
+                    </a>
+                </li>
+            @endforeach
+        </ul>
+
+    {{-- SINGLE PRODUCT → DIRECT --}}
+    @else
+
+        <a href="{{ route('product.show', $products->first()->slug) }}">
+            {{ $category->name }}
+        </a>
+
+    @endif
+
+</li>
+
+@endforeach
 
                             </div>
                     </div>
@@ -88,7 +114,7 @@
                                         @foreach(session('cart') as $id => $details)
                                         <div class="cart_item">
                                             <div class="item_img">
-                                                    <img src="{{$details['image']}}" alt="">
+                                            <img src="{{$details['image']}}" alt="">
                                             </div>
                                             <div class="item_details">
                                                 <p>{{$details['name']}}</p>
@@ -118,3 +144,4 @@
         
                     
     </div>
+    

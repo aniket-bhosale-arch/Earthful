@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ProductController;
 use App\Models\Product;
+use App\Models\Category;
+
 
 
 class ProductController extends Controller
@@ -12,39 +14,56 @@ class ProductController extends Controller
     
     public function index()
 {
+    
     // Carousel items (top slider)
-    $products = Product::latest()->take(8)->get();
-
+    $carouselProducts = Product::orderBy('id','desc')->take(8)->get();
+    // dd($products->count());
     // Featured products section
     $showcaseproducts = Product::take(4)->get();
+    
 
-    return view('welcome', compact('products', 'showcaseproducts'));
+    return view('welcome', compact('carouselProducts', 'showcaseproducts'));
 }
 
-public function product_details($id)
+
+public function show($slug)
 {
-    $products = Product::findOrFail($id);
-    return view('product_details', compact('products'));
+    $product = Product::where('slug', $slug)
+        ->with('images')
+        ->firstOrFail();
+
+    return view('product-detail', compact('product'));
 }
 
-    public function search(Request $request)
+
+
+
+public function search(Request $request)
 {
-    if($request->ajax()){
-        $products = Product::where('name', 'like', '%' . $request->search . '%')
-                            ->orWhere('price', 'like', '%' . $request->search . '%')
-                            ->get();
+    if ($request->ajax()) {
+
+        $products = Product::with('images')
+            ->where('name', 'like', '%' . $request->search . '%')
+            ->orWhere('price', 'like', '%' . $request->search . '%')
+            ->limit(5)
+            ->get();
 
         $output = '';
 
-        if($products->count() > 0){
-            foreach($products as $product){
-                // Generate product details page link
-                $url = route('product_details', $product->id);
+        if ($products->count() > 0) {
+
+            foreach ($products as $product) {
+
+                $image = $product->images->first()
+                    ? asset($product->images->first()->image)
+                    : asset('assets/no-image.jpg');
+
+                $url = route('product.show', $product->slug);
 
                 $output .= '
                 <a href="'.$url.'" class="product-link">
                     <div class="product">
-                        <img src="'.$product->image.'" alt="">
+                        <img src="'.$image.'" alt="">
                         <div class="p-details">
                             <h2>'.$product->name.'</h2>
                             <h3>Rs. '.$product->price.'</h3>
@@ -52,79 +71,79 @@ public function product_details($id)
                     </div>
                 </a>';
             }
+
         } else {
             $output = '<p style="padding:10px;color:#777;">No product found</p>';
         }
 
-        return $output; // return plain HTML
+        return response($output);
     }
 
-    return view('search');
+    abort(404);
 }
-
    
-    public function show()
+    public function shop()
 {
     $products = Product::all();
-    return view('showall', compact('products'));
+    return view('shopall', compact('products'));
 }
    
 
-    function plantprotein (Product $products){
-        $products = Product::where('name','=','Honest Plant Protein')->get();
-        return view('plantprotein',compact('products'));
-    }
+//     function plantprotein (Product $products){
+//         $products = Product::where('name','=','Honest Plant Protein')->get();
+//         return view('plantprotein',compact('products'));
+//     }
 
-    function gut (Product $products){
-        $products = Product::where('name','=','Gut Reset Blend')->get();
-        return view('gut',compact('products'));
-    }
+//     function gut (Product $products){
+//         $products = Product::where('name','=','Gut Reset Blend')->get();
+//         return view('gut',compact('products'));
+//     }
 
-    function hair (Product $products){
-        $products = Product::where('name','=','Hair Growth Blend')->get();
-        return view('hair',compact('products'));
-    }
-    function skin (Product $products){
-        $products = Product::where('name','=','Skin Boost Blend')->get();
-        return view('skin',compact('products'));
-    }
-    function sleep (Product $products){
-        $products = Product::where('name','=','Sleep Aid Blend')->get();
-        return view('sleep',compact('products'));
-    }
-    function  men_multi  (Product $products){
-        $products = Product::where('name','=','Multivitamin Men 18+')->get();
-        return view(' men_multi ',compact('products'));
-    }
+//     function hair (Product $products){
+//         $products = Product::where('name','=','Hair Growth Blend')->get();
+//         return view('hair',compact('products'));
+//     }
+//     function skin (Product $products){
+//         $products = Product::where('name','=','Skin Boost Blend')->get();
+//         return view('skin',compact('products'));
+//     }
+//     function sleep (Product $products){
+//         $products = Product::where('name','=','Sleep Aid Blend')->get();
+//         return view('sleep',compact('products'));
+//     }
+//     function  men_multi  (Product $products){
+//         $products = Product::where('name','=','Multivitamin Men 18+')->get();
+//         return view(' men_multi ',compact('products'));
+//     }
     
   
  
-    function men_category (){
-        // $data = Product::all();
-        // return view('plantprotein',compact('data'));
-        return view('men_category');
-    }
-    function women_category (){
-        // $data = Product::all();
-        // return view('plantprotein',compact('data'));
-        return view('women_category');
-    }
+//     function men_category (){
+//         // $data = Product::all();
+//         // return view('plantprotein',compact('data'));
+//         return view('men_category');
+//     }
+//     function women_category (){
+//         // $data = Product::all();
+//         // return view('plantprotein',compact('data'));
+//         return view('women_category');
+//     }
     
-    function women_multi (){
-        // $data = Product::all();
-        // return view('plantprotein',compact('data'));
-        return view('women_multi');
-    }
-     function pcos (){
-        // $data = Product::all();
-        // return view('plantprotein',compact('data'));
-        return view('pcos');
-    }
-    function teen_multi (){
-        // $data = Product::all();
-        // return view('plantprotein',compact('data'));
-        return view('teen_multi');
-    }
+//     function women_multi (){
+//         // $data = Product::all();
+//         // return view('plantprotein',compact('data'));
+//         return view('women_multi');
+//     }
+//      function pcos (){
+//         // $data = Product::all();
+//         // return view('plantprotein',compact('data'));
+//         return view('pcos');
+//     }
+//     function teen_multi (){
+//         // $data = Product::all();
+//         // return view('plantprotein',compact('data'));
+//         return view('teen_multi');
+//     }
 
     // <<------------------------------------   cart  ---------------------------------->>
     function cart(){

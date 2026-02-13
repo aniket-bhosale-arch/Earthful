@@ -17,144 +17,139 @@
   width:100%;
   height: 90px;
  }
- .small-img{
-  width: 100%;
-  display: block  ;
- }
- .card-wrapper{
+
+ 
+ /* ===== PAGE WRAPPER ===== */
+.card-wrapper{
   width: 100%;
   min-height: 100vh;
-  margin: auto;
-  padding-bottom: 20px;
-  /* background: hwb(0 20% 80%); */
   display: flex;
   justify-content: center;
-  align-items: center;
- 
-  /* overflow:hidden; */
- 
+  padding: 40px 0;
 }
-.card-wrapper .container{
-  max-width: 1200px;
-  /* margin: 0 auto; */
 
-}
 .product-div{
+  max-width: 1200px;
+  width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  column-gap: 20px;
+  grid-template-columns: 55% 45%;
+  gap: 20px;
 }
-.product-div-right{
-  padding-left: 20px;
-}
-.product-div-left{
-  /* padding-right: 20px; */
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  column-gap: 20px
-}
-.img-container {
-  object-fit: cover;
-  text-align: center;
-}
-.img-container img{
-  width: 550px;
-  height: 590px;
 
-
-
-  /* margin-bottom: 50px; */
-}
-.small-img-container{
-  display: table-row;
-  align-items: center;
-  justify-content: center;
-  margin: 20px 5px;
-}
-.small-img-container div{
-  border: 1px solid #000;
-  width: 100px;
-  padding: 1px;
-  border-radius: 3px;
-  margin: 0 4px 8px 4px;
+/* ===== GALLERY SECTION ===== */
+.product-gallery{
   display: flex;
-  align-items: center;
-  justify-content: center ;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+/* ===== LEFT THUMBNAILS ===== */
+.product-div-left{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.small-img{
+  width: 90px;
+  height: 90px;
   object-fit: cover;
-
+  border: 1px solid #ccc;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
+.small-img:hover{
+  border: 2px solid #000;
+}
+
+/* ===== BIG IMAGE ===== */
+.img-container{
+  flex: 1;
+}
+
+.big-img{
+  width: 100%;
+  max-width: 420px;
+  height: 420px;
+  object-fit: cover;
+  border: 1px solid #ddd;
+}
+
+/* ===== RIGHT DETAILS ===== */
 .product-div-right{
-  /* background: blue; */
-  text-align: left;
-  justify-content: left ;
-  padding-top: 20px;
+  padding-top: 5px;
 }
+
 .product-div-right h1{
-  font-family: var(--Open_Sans);
-  font-size: 2rem;
+  font-size: 32px;
   font-weight: 600;
   margin-bottom: 10px;
 }
+
 .product-div-right h3{
- font-family: var(--Poppins);
- font-size: 20px;
- font-weight: 300;
-  margin-bottom: 10px;
-}
-.product-price{
-  font-family: var(--Poppins);
-  font-size: 20px;
-  font-weight: 500;
-  margin-bottom: 20px;
-}
-.discription{
-  padding: 20px;
-  line-height: 25px;
   font-size: 18px;
-  /* margin: 10px; */
-}
-.discription ul li{
-  padding:5px ;
-  font-family: var(--Titillium_Web);
+  font-weight: 400;
+  color: #555;
+  margin-bottom: 15px;
 }
 
-/* .use-direction{
-  padding: 5px;
-} */
-.use-direction h1{
-  font-family: var(--Poppins);
+.product-div-right span{
+  display: block;
   font-size: 22px;
-  font-weight: 200;
-  color: #505050;
-  
+  font-weight: 600;
+  margin-bottom: 20px;
 }
-.use-direction img{
-  width:50px;
+
+/* ===== DESCRIPTION ===== */
+.product-div-right ul{
+  padding-left: 20px;
+  line-height: 26px;
+  margin-bottom: 25px;
 }
-.use-direction span{
-  font-family: var(--Titillium_Web);
-  font-size: 18px;
-  font-weight: 100;
-  line-height: 30px;
+
+/* ===== HOW TO USE ===== */
+.use-direction h1{
+  font-size: 20px;
+  margin-bottom: 10px;
 }
+
 .instruction{
-  display:grid;
-  grid-template-columns:60px 80%;
-  padding: 5px;
+  display: flex;
+  gap: 15px;
+  align-items: flex-start;
 }
+
+.instruction img{
+  width: 45px;
+}
+
+.instruction span{
+  display: block;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+/* ===== BUTTON ===== */
 .btn-group{
-  text-align: center;
-  justify-content: center;
+  margin-top: 25px;
 }
-.btn-group .add-cart-btn{
-  text-transform: uppercase;
-  font-family: var(--Roboto);
-  font-size: 18px;
-  font-weight: 100;
+
+.add-cart-btn{
+  padding: 12px 30px;
+  font-size: 16px;
   cursor: pointer;
-  padding: 5px 30px;
+  border: none;
+  background: #000;
+  color: #fff;
+  transition: 0.3s;
 }
+
+.add-cart-btn:hover{
+  background: #333;
+}
+
+
 
 /* <!-- middleimage-------------------------------------------->  */
 

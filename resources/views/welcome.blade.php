@@ -1,7 +1,4 @@
-
-  
-
-    <!DOCTYPE html>
+   <!DOCTYPE html>
         <html lang="en">
         <head>
             <meta charset="UTF-8">
@@ -16,8 +13,11 @@
 
         </head>
         <body>
+            
+        
       <!--main-containt-------------------------------> 
       <div id="wrapper">
+    
         <header>
             <nav>
                 <div class="menu-btn">
@@ -26,29 +26,55 @@
               
                 <div class="side-bar">
                     <div class="close-btn">
-                    <i class="fa-solid fa-xmark"></i>
+                         <i class="fa-solid fa-xmark"></i>
                     </div>
                     <div class="menu">
                         <div class="item">
                             <a href="#" class="sub-btn">Shop All<i class="fa-solid fa-angle-right dropdown"></i></a>
                             <div class="sub-menu">
-                            <a href="#" class="sub-btn">Multivitamin<i class="fa-solid fa-angle-right dropdown"></i></a>
-                                <div class="sub-menu">
-                                <a href="{{route('women_multi')}}" class="sub-item">Women Multivitamin18+</a>
-                                <a href="{{route('men_multi')}}" class="sub-item">Men Multivitamin</a>
-                                <a href="{{route('sleep')}}" class="sub-item">Bone</a>
-                                <a href="#" class="sub-item">Women Multivitamin40+</a>
-                                <a href="{{route('teen_multi')}}" class="sub-item">teen Multivitamin</a>
+                            @foreach($sidebarCategories as $category)
 
+                                @php
+                                    $products = $category->products;
+                                    $count = $products->count();
+                                @endphp
 
-                                </div>
-                                <a href="{{route('plantprotein')}}" class="sub-item">plant protein</a>
-                                <a href="{{route('skin')}}" class="sub-item">skin</a>
-                                <a href="{{route('hair')}}" class="sub-item">hair</a>
-                                <a href="{{route('gut')}}" class="sub-item">gut</a>
-                                <a href="{{route('sleep')}}" class="sub-item">sleep</a>
-                                <a href="{{route('pcos')}}" class="sub-item">pcos</a>
+                                @if($count === 0)
+                                    @continue
+                                @endif
 
+                                <li class="sidebar-item">
+
+                                    {{-- MULTIPLE PRODUCTS → TOGGLE --}}
+                                    @if($count > 1)
+
+                                        <span class="category-toggle">
+                                            {{ $category->name }}
+                                            
+                                        </span>
+
+                                        <ul class="product">
+                                            @foreach($products as $product)
+                                                <li>
+                                                    <a href="{{ route('product.show', $product->slug) }}">
+                                                        {{ $product->name }}
+                                                    </a>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+
+                                    {{-- SINGLE PRODUCT → DIRECT --}}
+                                    @else
+
+                                        <a href="{{ route('product.show', $products->first()->slug) }}">
+                                            {{ $category->name }}
+                                        </a>
+
+                                    @endif
+
+                                </li>
+
+                                @endforeach
 
                             </div>
                     </div>
@@ -67,7 +93,8 @@
                             <li><a href="#"><i class="fa-brands fa-youtube"></i></a></li>
                         </ul>
             </div>
-                </div>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                </div>  
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
                 
                 <div class="logo">
                 <a href="/"> <img src="./asset/logo.jpg" alt=""></a>
@@ -144,121 +171,45 @@
                     </div>
             </nav>
         </header>
+        
                                 <seaction class="seaction-main">
                                       <div class="center-title">
                                         <h1>From Plant, Not Synthetic </h1>
                                         <h5>   NUTRITION FOR DAILY HEALTH</h5>
-                                        <button class="shop_now"><a href="{{route('show')}}">shop now</a></button>
+                                        <button class="shop_now"><a href="{{route('shop')}}">shop now</a></button>
                                     </div>
                                 </seaction> 
                               
        
     </div>
-    <main>
-    @if(session('success'))
-        <div class="toast show">
-            <i class="fa-solid fa-check check"></i>
-            <div class="toast-content">
-                <div class="message">
-                    <span class=" text text1">succsess</span>
-                        <span class="alert-success text text-2">
-                        {{session('success')}}
-                    </span>
-                </div>
-            </div>
-            <div class="progress"></div>
-        </div>
-        @endif
+    
+    <main> 
 <!-- /*carousel---------------------------> 
 
 
-        <div id= "carousel">
-            <div class="wrapper ">
-                <i id="left" class="fa-solid fa-angle-left"></i>
-               
-                <div class="carousel">
-                   @foreach($products as $product)
-                   <li class="card">
-                        <a href="{{route('product_details',$product->id)}}">
-                            <div class="img" name="product_id">
-                                <img src="{{ $product->image}}" alt="" srcset="" draggable="false">
-                            </div>
+    <div id= "carousel">
+        <div class="wrapper ">
+            <i id="left" class="fa-solid fa-angle-left"></i>   
+                <div class="carousel"> 
+                    <ul>
+                    @foreach($carouselProducts as $product)
+                        <li class="card">
+                        <a href="{{ route('product.show', $product->slug) }}">
+                            <img src="{{ asset($product->images->first()->image) }}">
+                            <p>{{ $product->name }}</p>
                         </a>
-                    <h4>{{ $product->name}}</h4>
-                    </li>
-                   @endforeach
-
-                
-                    <!-- <li class="card">
-                        <a href="{{route('men_category')}}">
-                        <div class="img"><img src="./assets/blog-post/Men_550x.jpg" alt="" srcset="" draggable="false"></div>
-                        </a>
-                        <h4>Men</h4>
-                    </li>
-                    <li class="card">
-                        <a href="{{route('women_category')}}">
-                        <div class="img"><img src="./assets/blog-post/Women_550x.jpg" alt="" srcset=""draggable="false"></div>
-                        </a>
-                        <h4>Women</h4>
-                    </li>
-                    <li class="card">
-                        <a href="{{route('skin')}}">
-                        <div class="img"><img src="./assets/blog-post/1stimage.jpg" alt="" srcset=""draggable="false"></div>
-                        </a>
-                        <h4>Skin</h4>
-                    </li>
-                    <li class="card">
-                        <a href="{{route('hair')}}">
-                        <div class="img"><img src="./assets/blog-post/2nd_img.jpg" alt="" srcset=""draggable="false"></div>
-                        </a>
-                        <h4>Hair</h4>
-                    </li>
-                    <li class="card">
-                        <a href="{{route('sleep')}}">
-                        <div class="img"><img src="./assets/blog-post/3rd.jpg" alt="" srcset=""draggable="false"></div>
-                        </a>
-                        <h4>Sleep</h4>
-                    </li>
-                    <li class="card">
-                        <a href="{{route('men_multi')}}">
-                        <div class="img"><img src="./assets/blog-post/4rth_img.jpg" alt="" srcset=""draggable="false"></div>
-                        </a>
-                        <h4>Men Multivitamin 18+</h4>
-                    </li>
-                    <li class="card">
-                        <a href="{{route('gut')}}">
-                        <div class="img"><img src="./assets/blog-post/5th_img.jpg" alt="" srcset=""draggable="false"></div>
-                        </a>
-                        <h4>gut</h4>
-                    </li>
-                    <li class="card">
-                        <a href="{{route('women_multi')}}">
-                        <div class="img"><img src="./assets/blog-post/6th_img.jpg " alt="" srcset=""draggable="false"></div>
-                        </a>
-                        <h4>Women Multivitamin 18+</h4>
-                    </li>
-                    <li class="card">
-                        <a href="{{route('pcos')}}">
-                        <div class="img"><img src="./assets/blog-post/7th_img.jpg" alt="" srcset=""draggable="false"></div>
-                        </a>
-                        <h4>PCOS</h4>
-                    </li> 
-                    <li class="card">
-                        <a href="{{route('teen_multi')}}">
-                        <div class="img"><img src="./assets/blog-post/8th_img.jpg" alt="" srcset=""draggable="false"></div>
-                        </a>
-                        <h4>Teen Multivitamin</h4>
-                    </li>  -->
-                        
-                    
+                        </li>
+                    @endforeach 
+                 
+                    </ul>
                 </div>
-                <i id="right" class="fa-solid fa-angle-right"></i>
+            <i id="right" class="fa-solid fa-angle-right"></i>
                
-               </div>
-         </div>
-         <div class="carousel_break_line">
+        </div>
+    </div>
+    <div class="carousel_break_line">
          <hr>
-         </div>
+    </div>
          
      
 
@@ -383,7 +334,7 @@
         @foreach($showcaseproducts as $product)
         <div class="productbox">
             <div class="productimg">
-                <img src="{{ $product->image}}" alt="">
+                <img src="{{ asset($product->images->first()->image) }}" alt="">
             </div>
             <div class="productinfo">
                 <h1>{{ $product->name }}</h1>
@@ -445,12 +396,12 @@
         <div class="product-list">
             <h1>shop all</h1>
             <ul>
-                <li><a href="{{route('skin')}}">skin</a></li>
-                <li><a href="{{route('hair')}}">hair</a></li>
+                <li><a href="#">skin</a></li>
+                <li><a href="#">hair</a></li>
                 <li><a href="#">Multivitamin</a></li>
-                <li><a href="{{route('pcos')}}">PCOCS</a></li>
-                <li><a href="{{route('gut')}}">gut</a></li>
-                <li><a href="{{route('sleep')}}">sleep</a></li>
+                <li><a href="#">PCOCS</a></li>
+                <li><a href="#">gut</a></li>
+                <li><a href="#">sleep</a></li>
 
             </ul>
         </div>
@@ -484,28 +435,33 @@
 <script src="{{ ('../js/jquery3.7.0 .min.js') }}"></script>
 <script src="{{ ('../js/main.js') }}" defer></script>
 
-<script type="text/javascript">
-    $.ajaxSetup({headers: {'csrftoken' : '{{ csrf_token() }}'}});
-</script>
 <script>
-    $(document).ready(function(){
-        $('#search').on('keyup',function(){
-            var value = $(this).val();
-            // console.log(value);
-            $.ajax({
-                type:"get",
-                url:"/search",
-                data:{'search':value},
-              
-                success:function(data){
-                    // console.log(data);
-                    $('.product-result').html(data);
-                }
-            });
+$(document).ready(function(){
+    $('#search').on('keyup', function(){
+        let value = $(this).val();
+
+        if(value.length < 2){
+            $('.product-result').html('');
+            return;
+        }
+
+        $.ajax({
+            type: "GET",
+            url: "{{ url('/search') }}",
+            data: { search: value },
+            success: function(data){
+                $('.product-result').html(data);
+            },
+            error: function(xhr){
+                console.log(xhr.responseText);
+            }
         });
     });
+});
+</script>
 
-    // document.addEventListener('DOMContentLoaded', function() {
+
+    <!-- // document.addEventListener('DOMContentLoaded', function() {
     //     var searchInput = document.getElementById('search');
     //     var searchForm = document.getElementById('searchForm');
 
@@ -539,8 +495,25 @@
     //             console.error('Error:', error);
     //         });
     //     });
-    // });
+    // }); -->
+
+    <script>
+document.querySelectorAll('.category-toggle').forEach(toggle => {
+    toggle.addEventListener('click', function () {
+
+        // Close other open lists (optional)
+        document.querySelectorAll('.product.open').forEach(list => {
+            if (list !== this.nextElementSibling) {
+                list.classList.remove('open');
+            }
+        });
+
+        // Toggle current category
+        this.nextElementSibling.classList.toggle('open');
+    });
+});
 </script>
+
 
 
 

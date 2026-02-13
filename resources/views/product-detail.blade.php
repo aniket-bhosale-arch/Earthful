@@ -18,75 +18,64 @@
         </div>
         @endif
 
-        <div class="card-wrapper">
-            <div class="container">
-                <div class="product-div">
-            
+<div class="card-wrapper">
+    <div class="product-div">
+        <div class="product-gallery">                    
+            {{-- LEFT THUMBNAILS --}}
+            <div class="product-div-left">
+                @foreach($product->images as $img)
+                    <img 
+                        src="{{ asset($img->image) }}" 
+                        class="small-img"
+                        onclick="changeImage('{{ asset($img->image) }}')"
+                    >
+                @endforeach
+            </div>
 
-                    <div class="product-div-left">
-                    <div class="small-img-container">
-                            <div class="small-img-col">
-                                <img src="../assets/productshowcase/sleep1.jpg" alt="" srcset=""class="small-img">
-                            </div>
-                            <div class="small-img-col">
-                                <img src="../assets/productshowcase/sleep2.jpg" alt="" srcset="" class="small-img">
-                            </div>
-                            <div class="small-img-col">
-                                <img src="../assets/productshowcase/sleep3.jpg" alt="" srcset="" class="small-img"> 
-                            </div>
-                            <div class="small-img-col">
-                                <img src="../assets/productshowcase/sleep4.jpg" alt="" srcset="" class="small-img">
-                            </div>
-                            <div class="small-img-col">
-                                <img src="../assets/productshowcase/sleep5.jpg" alt="" srcset="" class="small-img">
-                            </div>
-                        </div>
-                        <div class="img-container">
-                             <img src="{{$products->image}}" alt="" srcset=""class="small-img">
-
-                        </div>
-                       
-                    </div>
-                    <div class="product-div-right">
-                        <h1>{{$products->name}}</h1>
-                        <h3>{{$products->description}}</h3>
-                        <span class="product-price">Rs.{{$products->price}}.00</span>
-                        <div class="discription">
-                        <ul>
-                            <li>Contains All Amino Acids. India's 1st Plant Protein to have PDCAAS = 1</li>
-        
-                            <li>Indonesian Cocoa Beans for taste. NO Synthetic Flavours</li>
-                            <li>6 INGREDIENTS Only. 100% Plant. No side effects.</li>
-                            <li>Formulated by doctors, nutritionists</li>
-                            <li>FSSAI & GMP approved.</li>
-                        </ul>
-                        </div>
-                        <div class="use-direction">
-                                   <h1>How to use</h1>
-                            <div class="instruction">
-                                <div class="right-icon">
-                                <img src="../assets/how to use.jpg" alt="" srcset=""> 
-                                </div>
-                                <left-text>
-                                <span>Add 2 scoops (~42 g) to 300 ml water/milk.</span>
-                                <span>Consume it 30-90 minutes before or after exercise.</span>
-
-                                </left-text>
-                               
-                            </div>                        
-                        </div>
-                        <form action="" method="POST">
-                                @csrf
-                                <div class="btn-group">    
-                                    <input type="hidden"  >
-                                <a href="{{route('add_to_cart', $products->id)}}"><button type="button" class="add-cart-btn">Add to cart</button> 
-                                </div> </a> 
-                            </form>
-                    </div>
-                   
-                </div>
+            {{-- RIGHT BIG IMAGE --}}
+            <div class="img-container">
+                <img 
+                    id="bigImage"
+                    src="{{ asset($product->images->first()->image) }}"
+                    class="big-img"
+                >
             </div>
         </div>
+        {{-- RIGHT DETAILS --}}
+        <div class="product-div-right">
+            <h1>{{ $product->name }}</h1>
+            <h3>{{ $product->short_description }}</h3>
+            <span>Rs. {{ $product->price }}</span>
+            <ul>
+                {!! nl2br(e($product->description)) !!}
+            </ul>
+
+                <div class="use-direction">
+                  <h1>How to use</h1>
+                    <div class="instruction">
+                        <div class="right-icon">
+                        <img src="../assets/how to use.jpg" alt="" srcset=""> 
+                        </div>
+                        <left-text>
+                        <span>Add 2 scoops (~42 g) to 300 ml water/milk.</span>
+                        <span>Consume it 30-90 minutes before or after exercise.</span
+                        </left-text>
+                       
+                    </div>                        
+                </div>
+                    <form action="" method="POST">
+                            @csrf
+                            <div class="btn-group">    
+                                <input type="hidden"  >
+                            <a href="{{route('add_to_cart', $product->id)}}"><button type="button" class="add-cart-btn">Add to cart</button> 
+                             </a> 
+                             </div>
+                    </form>
+        </div>
+                         
+    </div>          
+</div>                
+                        
         <!-- productinfo-------------------------------------- -->
 
         <!-- middleimage--------------------------------------------> 

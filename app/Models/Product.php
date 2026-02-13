@@ -9,5 +9,22 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Product extends Model
 {
     
-    use HasFactory;
+    protected $fillable = [
+        'category_id',
+        'name',
+        'slug',
+        'price',
+        'short_description',
+        'description'
+    ];
+
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }

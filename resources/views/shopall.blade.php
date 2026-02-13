@@ -7,8 +7,8 @@
             @foreach($products as $product)
             <div class="productbox">
                 <div class="productimg">
-                   <a href="{{route('product_details',$product->id)}}">
-                   <img src="{{$product->image}}" alt="image">
+                <a href="{{ route('product.show', $product->slug) }}">
+                   <img src="{{ asset($product->images->first()->image) }}" alt="image">
                    </a>
                 </div>
                     <div class="productinfo">

@@ -87,45 +87,27 @@ function closeCart(){
 
 
 
-const carousel = document.querySelector(".carousel");
-const arrowBtns = document.querySelectorAll (".wrapper i");
-const firstCardWidth = document.querySelector(".card").offsetWidth;
+const carousel = document.querySelector(".carousel ul");
+const leftBtn = document.getElementById("left");
+const rightBtn = document.getElementById("right");
 
+const cardWidth = carousel.querySelector(".card").offsetWidth + 20;
 
-let isDragging = false, startX, startScrollLeft;
+leftBtn.addEventListener("click", () => {
+  carousel.scrollLeft -= cardWidth;
+});
 
-const dragStart = (e) =>{
-  isDragging = true;
-  carousel.classList.add("dragging");
-  startX = e.pageX;
-  startScrollLeft = carousel.scrollLeft;
-}
-
-arrowBtns.forEach(btn => {
-  btn.addEventListener("click", () =>{
-    carousel.scrollLeft += btn.id === "left" ? -firstCardWidth : firstCardWidth; 
-  });
+rightBtn.addEventListener("click", () => {
+  carousel.scrollLeft += cardWidth;
 });
 
 
-
-
-
-const dragging = (e) => {
-  if(!isDragging )return;     //if isDragging is false return here
-  carousel.scrollLeft = startScrollLeft - (e.pageX - startX);
-}
-
-const dragStop = () => {
-  isDragging = false;
-  carousel.classList.remove("dragging");
-}
-
-carousel .addEventListener("mousedown", dragStart);
-carousel .addEventListener("mousemove", dragging);
-document .addEventListener("mouseup", dragStop);
-
 // productbladejs--------------------------------------->
+
+function changeImage(src){
+    document.getElementById('bigImage').src = src;
+}
+
 
 // productbladejs--------------------------------------->
 
