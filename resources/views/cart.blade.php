@@ -35,7 +35,7 @@
                 <td>
                     <div class="cart-info" >
                         <div class="cartimage">
-                            <img src="{{$details['image']}}"  alt="img">
+                        <img src="{{ asset($details['image']) }}">
                         </div>
                         <div class="cartproductname">
                             <h4>{{$details['name']}}</h4>

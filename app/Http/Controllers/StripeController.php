@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use stripe\Checkout\Session;
-use App\Http\Controllers\StripeController;
+
 
 class StripeController extends Controller
 {       
@@ -49,7 +49,8 @@ class StripeController extends Controller
                 'user_id'             => "0001"
             ],
             'customer_email' => $user->email,
-            'success_url' => route('success'),
+            'billing_address_collection' => 'required',
+            'success_url' => route('success', [], true) . '?session_id={CHECKOUT_SESSION_ID}',
             'cancel_url'  => route('cancel'),
         ]);
 
@@ -59,11 +60,24 @@ class StripeController extends Controller
 
     }
 
-    function success(){
-        return "Thanks for you  order, you hav just completed your payment. The product will reach out to you as soon as possible";
-    }
+    // function success(){
+    //     return "Thanks for you  order, you hav just completed your payment. The product will reach out to you as soon as possible";
+    // }
 
     function cancel(){
         return"cancel";
     }
+    public function success(Request $request)
+{
+    \Stripe\Stripe::setApiKey(config('stripe.sk'));
+
+    $session = \Stripe\Checkout\Session::retrieve($request->session_id);
+
+    if ($session->payment_status === 'paid') {
+        session()->forget('cart');   // 
+        return  "Thanks for you  order, you hav just completed your payment. The product will reach out to you as soon as possible";
+    }
+
+    return "Payment not completed.";
+}
 }

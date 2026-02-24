@@ -114,7 +114,7 @@
                                         @foreach(session('cart') as $id => $details)
                                         <div class="cart_item">
                                             <div class="item_img">
-                                            <img src="{{$details['image']}}" alt="">
+                                            <img src="{{ asset($details['image']) }}">
                                             </div>
                                             <div class="item_details">
                                                 <p>{{$details['name']}}</p>
